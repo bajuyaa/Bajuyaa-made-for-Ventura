@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baljinnyam Sersendemid — For Ventura</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --accent: #c8392b;
+    --gold: #d4a843;
+    --mid: #5a5248;
+    --light: #e8e2d6;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed; width: 10px; height: 10px;
+    background: var(--accent); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed; width: 36px; height: 36px;
+    border: 1.5px solid var(--accent); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.35s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .hero-left {
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1.5px solid var(--ink);
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-right {
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(200,57,43,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: breathe 6s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+  }
+
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .issue-tag {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .issue-tag .dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 7vw, 92px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-tagline {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--mid);
+    max-width: 360px;
+    border-left: 2px solid var(--accent);
+    padding-left: 16px;
+    margin-top: 8px;
+  }
+
+  .hero-roles {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 40px;
+  }
+
+  .role-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--ink);
+    padding: 10px 18px;
+    width: fit-content;
+    transition: all 0.3s ease;
+  }
+
+  .role-chip:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .role-chip.accent {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .big-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(120px, 22vw, 280px);
+    font-weight: 900;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(13,13,13,0.15);
+    position: absolute;
+    bottom: -30px;
+    right: -20px;
+    z-index: 0;
+    user-select: none;
+  }
+
+  .hero-right-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .big-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .big-quote span {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    background: var(--ink);
+    color: var(--paper);
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    height: 56px;
+    border-bottom: 1.5px solid #333;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--paper);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  .section-label-col {
+    padding: 60px 40px;
+    border-right: 1.5px solid var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    margin-top: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .section-content {
+    padding: 60px 50px;
+  }
+
+  /* WHY VENTURA */
+  .why-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3.5vw, 40px);
+    font-weight: 400;
+    line-height: 1.5;
+    max-width: 720px;
+  }
+
+  .why-text strong {
+    font-weight: 900;
+  }
+
+  .why-text em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .why-subtext {
+    margin-top: 30px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--mid);
+    max-width: 560px;
+  }
+
+  /* SKILLS GRID */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .skill-card {
+    padding: 32px;
+    border: 1px solid var(--light);
+    border-left: none;
+    border-top: none;
+    transition: background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+    z-index: 0;
+  }
+
+  .skill-card:hover::before { transform: translateY(0); }
+  .skill-card:hover .skill-name,
+  .skill-card:hover .skill-desc { color: var(--paper); position: relative; z-index: 1; }
+  .skill-card:hover .skill-icon { color: var(--accent); position: relative; z-index: 1; }
+
+  .skill-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    display: block;
+    position: relative; z-index: 1;
+  }
+
+  .skill-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    position: relative; z-index: 1;
+    transition: color 0.3s;
+  }
+
+  .skill-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--mid);
+    position: relative; z-index: 1;
+    transition: color 0.3s;
+  }
+
+  /* EXPERIENCE TIMELINE */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border-bottom: 1px solid var(--light);
+    padding: 32px 0;
+    gap: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    padding-top: 4px;
+  }
+
+  .timeline-company {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--mid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .timeline-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .timeline-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--mid);
+  }
+
+  /* APPLYING FOR */
+  .apply-section {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    border-bottom: 1.5px solid #333;
+  }
+
+  .apply-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 68px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .apply-heading em {
+    color: var(--accent);
+    font-style: italic;
+    display: block;
+  }
+
+  .apply-roles {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .apply-role {
+    border: 1px solid #333;
+    padding: 28px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .apply-role:hover {
+    border-color: var(--accent);
+  }
+
+  .apply-role-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--gold);
+  }
+
+  .apply-role-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #999;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 80px 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .contact-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .contact-heading em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    border: 1.5px solid var(--ink);
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.3s;
+  }
+
+  .contact-item:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .contact-item-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .contact-item-value {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  /* CTA */
+  .cta-bar {
+    background: var(--accent);
+    color: white;
+    padding: 24px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cta-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-style: italic;
+  }
+
+  .cta-email {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    background: white;
+    color: var(--accent);
+    padding: 12px 24px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+
+  .cta-email:hover {
+    background: var(--ink);
+    color: white;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 30px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  footer .foot-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  footer .foot-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ANIMATIONS */
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * {
+    animation: slideUp 0.8s ease forwards;
+  }
+
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; opacity: 0; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.25s; opacity: 0; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.4s; opacity: 0; }
+
+  .hero-right-content {
+    animation: slideUp 0.8s 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  /* Marquee */
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1.5px solid var(--ink);
+    border-bottom: 1.5px solid var(--ink);
+    background: var(--ink);
+    padding: 14px 0;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    animation: marquee 18s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .marquee-item::after {
+    content: '✦';
+    color: var(--accent);
+    font-size: 10px;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 768px) {
+    .hero, .section-grid, .apply-section, .contact-section { grid-template-columns: 1fr; }
+    .hero-left { border-right: none; border-bottom: 1.5px solid var(--ink); }
+    .section-label-col { border-right: none; border-bottom: 1.5px solid var(--ink); padding: 30px; }
+    .section-title { writing-mode: horizontal-tb; transform: none; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .nav { padding: 0 20px; }
+    .hero-left, .hero-right, .section-content, .cta-bar, footer { padding: 30px 20px; }
+    .big-number { font-size: 100px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">Bajuyaa</div>
+  <ul class="nav-links">
+    <li><a href="#why">Why Ventura</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#apply">Applying For</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="issue-tag">
+      <div class="dot"></div>
+      <span class="label">Application — Ventura Media</span>
+    </div>
+
+    <div>
+      <h1 class="hero-name">
+        Balji<em>n</em>nyam<br>Sersendemid
+      </h1>
+      <p class="hero-tagline">
+        A builder, storyteller, and strategist. Ready to shape Mongolia's media future from day one with you guys.
+      </p>
+      <div class="hero-roles">
+        <div class="role-chip accent">✦ Project Manager</div>
+        <div class="role-chip">✦ Content Creator</div>
+      </div>
+    </div>
+
+    <div class="label">Ulaanbaatar, Mongolia · 2026</div>
+  </div>
+
+  <div class="hero-right">
+    <div class="big-number">01</div>
+    <div class="hero-right-content">
+      <div class="label" style="margin-bottom:20px">A message to the team</div>
+      <p class="big-quote">
+        I've been watching Ventura<br>
+        from the <span>sidelines.</span><br>
+        Not anymore.
+      </p>
+      <p style="font-size:14px; color:var(--mid); line-height:1.7; max-width:400px;">
+        Last year, I wanted to join, but I was deep in a full-time role leading product development at Skytel Group. I kept watching, kept thinking. When I saw this opening, I knew: THIS IS THE MOMENT.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Project Management</span>
+    <span class="marquee-item">Content Creation</span>
+    <span class="marquee-item">UX Strategy</span>
+    <span class="marquee-item">EdTech</span>
+    <span class="marquee-item">OTT Platforms</span>
+    <span class="marquee-item">Media & Storytelling</span>
+    <span class="marquee-item">Cross-Functional Teams</span>
+    <span class="marquee-item">Brand Strategy</span>
+    <span class="marquee-item">Project Management</span>
+    <span class="marquee-item">Content Creation</span>
+    <span class="marquee-item">UX Strategy</span>
+    <span class="marquee-item">EdTech</span>
+    <span class="marquee-item">OTT Platforms</span>
+    <span class="marquee-item">Media & Storytelling</span>
+    <span class="marquee-item">Cross-Functional Teams</span>
+    <span class="marquee-item">Brand Strategy</span>
+  </div>
+</div>
+
+<!-- WHY VENTURA -->
+<section id="why" class="section-grid">
+  <div class="section-label-col">
+    <div class="section-number">/ 01</div>
+    <div class="section-title">Why Ventura</div>
+  </div>
+  <div class="section-content">
+    <p class="why-text">
+      Mongolia deserves <strong>world-class media.</strong><br>
+      Ventura is building it, and I want to be <em>in the room</em> where that happens.
+    </p>
+    <p class="why-subtext">
+      I've spent years at the intersection of technology and storytelling; leading platforms, shaping user experiences, creating content that moves people. What I haven't had is a home that's fully committed to media excellence in Mongolia.
+      <br><br>
+      Ventura's mission - to lead with quality, innovation, and social impact — is exactly where I want to pour my energy. I'm not looking for just a job. I want to build something that matters.
+    </p>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section-grid">
+  <div class="section-label-col">
+    <div class="section-number">/ 02</div>
+    <div class="section-title">What I Bring</div>
+  </div>
+  <div class="section-content" style="padding:0;">
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-icon">🎯</span>
+        <div class="skill-name">Project Leadership</div>
+        <div class="skill-desc">Led multi-phase product roadmaps from strategy to delivery. Coordinated cross-functional teams across design, engineering, and marketing.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📱</span>
+        <div class="skill-name">Content & Storytelling</div>
+        <div class="skill-desc">Created campaigns, scripts, and social content for EdTech and tech platforms. Comfortable on camera and behind it.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">📊</span>
+        <div class="skill-name">Data-Driven Decisions</div>
+        <div class="skill-desc">Google Analytics, A/B testing, UX metrics (SUS, SEQ). I don't guess, I measure.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🎨</span>
+        <div class="skill-name">Design Thinking</div>
+        <div class="skill-desc">Figma, wireframing, usability testing. Led UI/UX redesign for GoPlus OTT platform as my thesis research.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🤝</span>
+        <div class="skill-name">Stakeholder Management</div>
+        <div class="skill-desc">Experienced presenting product strategy to leadership, coordinating go-to-market, and managing timelines under pressure.</div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">🌍</span>
+        <div class="skill-name">Global Perspective</div>
+        <div class="skill-desc">U.S. State Dept. Future Leaders Exchange alumna. International exposure shapes how I think about storytelling and quality.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section-grid">
+  <div class="section-label-col">
+    <div class="section-number">/ 03</div>
+    <div class="section-title">Experience</div>
+  </div>
+  <div class="section-content">
+    <div class="timeline">
+      <div class="timeline-item">
+        <div>
+          <div class="timeline-date">Jun 2024 – Apr 2026</div>
+          <div class="timeline-company">Skytel Group</div>
+        </div>
+        <div>
+          <div class="timeline-role">Digital Product Specialist</div>
+          <div class="timeline-desc">Led product development for GoPlus and Skymedia OTT platforms. Owned the full roadmap — from strategy to execution. Ran multi-phase usability testing and stakeholder reporting. The work that made me ready for Ventura.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div>
+          <div class="timeline-date">Apr 2024 – Oct 2024</div>
+          <div class="timeline-company">Lambda Global</div>
+        </div>
+        <div>
+          <div class="timeline-role">Marketing & Sales Manager</div>
+          <div class="timeline-desc">Oversaw CRM implementation, aligned marketing with business objectives. Drove product visibility and user acquisition strategy.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div>
+          <div class="timeline-date">Nov 2022 – May 2024</div>
+          <div class="timeline-company">TomYo EdTech</div>
+        </div>
+        <div>
+          <div class="timeline-role">Marketing Manager</div>
+          <div class="timeline-desc">Led campaigns and social strategy for EdTech products. Coordinated go-to-market for TomYo Ella mobile app. Created content that drove real user engagement.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div>
+          <div class="timeline-date">2021 – Jun 2025</div>
+          <div class="timeline-company">Univ. of Finance & Economics</div>
+        </div>
+        <div>
+          <div class="timeline-role">B.A. Management Information Systems</div>
+          <div class="timeline-desc">Thesis: <em>"Redesigning UI/UX for OTT Streaming Platforms: A Case Study on GoPlus."</em> Real research. Real product. Real impact.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLYING FOR -->
+<section id="apply" class="apply-section">
+  <div>
+    <div class="label" style="color:#666; margin-bottom:20px">/ 04</div>
+    <h2 class="apply-heading">
+      I'm applying<br>
+      <em>for two.</em>
+    </h2>
+    <p style="font-size:14px; color:#888; margin-top:24px; max-width:340px; line-height:1.7;">
+      Not because I can't choose, but because these two roles are genuinely where my experience and passion intersect. I lead projects and I create content. Both, fully.
+    </p>
+  </div>
+  <div class="apply-roles">
+    <div class="apply-role">
+      <div class="apply-role-title">Project Manager</div>
+      <div class="apply-role-desc">
+        I've managed digital product roadmaps end-to-end. I know how to hold a team accountable, communicate with stakeholders, and deliver on time without sacrificing quality. At Ventura, I'd bring that same rigor to every production cycle — from brief to broadcast.
+      </div>
+    </div>
+    <div class="apply-role">
+      <div class="apply-role-title">Content Creator</div>
+      <div class="apply-role-desc">
+        I've written campaigns, built narratives, and driven audiences across EdTech and tech platforms. I'm comfortable on camera, confident in my voice, and I am learning how to make content that people actually want to watch — in any industry, in any format.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REELS SHOWCASE -->
+<section id="reels" class="section-grid" style="border-bottom: 1.5px solid var(--ink);">
+  <div class="section-label-col">
+    <div class="section-number">/ 05</div>
+    <div class="section-title">Content</div>
+  </div>
+  <div class="section-content">
+    <div style="margin-bottom: 32px;">
+      <p class="why-text" style="font-size: clamp(18px, 2.5vw, 28px);">
+        See me in action — <em>@bajuyaa</em>
+      </p>
+      <p class="why-subtext" style="margin-top:12px;">
+        A glimpse of how I show up on camera.
+      </p>
+    </div>
+
+    <!-- REEL EMBEDS — paste Instagram embed blockquote+script pairs below each card -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start;">
+
+      <!-- REEL 1: Replace this block with your Instagram embed code -->
+      <div class="reel-card">
+        <div class="reel-placeholder">
+          <span class="reel-icon">▶</span>
+          <span class="reel-hint"><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DTfinuUEw1j/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/reel/DTfinuUEw1j/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/reel/DTfinuUEw1j/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Lambda.Global (@lambda.global)</a></p></div></blockquote>
+<script async src="//www.instagram.com/embed.js"></script></span>
+        </div>
+      </div>
+
+      <!-- REEL 2 -->
+      <div class="reel-card">
+        <div class="reel-placeholder">
+          <span class="reel-icon">▶</span>
+          <span class="reel-hint"><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DKJtt7boQ6g/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/reel/DKJtt7boQ6g/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/reel/DKJtt7boQ6g/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by GoPlus (@goplusmn)</a></p></div></blockquote>
+<script async src="//www.instagram.com/embed.js"></script></span>
+        </div>
+      </div>
+
+      <!-- REEL 3 -->
+      <div class="reel-card">
+        <div class="reel-placeholder">
+          <span class="reel-icon">▶</span>
+          <span class="reel-hint"><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DKQxKUlB4xG/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/reel/DKQxKUlB4xG/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/reel/DKQxKUlB4xG/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by GoPlus (@goplusmn)</a></p></div></blockquote>
+<script async src="//www.instagram.com/embed.js"></script></span>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 28px;">
+      <a href="https://www.instagram.com/bajuyaa/" target="_blank" style="
+        display: inline-flex; align-items: center; gap: 10px;
+        font-family: 'DM Mono', monospace; font-size: 12px;
+        letter-spacing: 0.15em; text-transform: uppercase;
+        border: 1.5px solid var(--ink); padding: 12px 22px;
+        text-decoration: none; color: var(--ink);
+        transition: all 0.3s;
+      " onmouseover="this.style.background='var(--ink)';this.style.color='var(--paper)'"
+         onmouseout="this.style.background='transparent';this.style.color='var(--ink)'">
+        ↗ View full profile @bajuyaa
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reel-card {
+    border: 1.5px solid var(--light);
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .reel-card:hover { border-color: var(--accent); }
+  .reel-placeholder {
+    aspect-ratio: 9/16;
+    background: var(--light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .reel-icon {
+    font-size: 32px;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+  .reel-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--mid);
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0 16px;
+  }
+  /* When real embeds are pasted, make them fill the card */
+  .reel-card iframe,
+  .reel-card blockquote {
+    width: 100% !important;
+    min-width: unset !important;
+    margin: 0 !important;
+  }
+</style>
+
+<!-- CONTACT -->
+
+<section id="contact">
+  <div class="contact-section">
+    <div>
+      <h2 class="contact-heading">
+        Let's<br>
+        <em>talk.</em>
+      </h2>
+      <p style="margin-top:20px; font-size:14px; color:var(--mid); line-height:1.7; max-width:320px;">
+        I'm ready when you are. Whether you have questions, want to meet, or just want to see what I can do — reach out.
+      </p>
+    </div>
+    <div class="contact-list">
+      <a class="contact-item" href="mailto:99baju@gmail.com">
+        <div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value">99baju@gmail.com</div>
+        </div>
+      </a>
+      <a class="contact-item" href="tel:+97669698998">
+        <div>
+          <div class="contact-item-label">Phone</div>
+          <div class="contact-item-value">+976 6969 8998</div>
+        </div>
+      </a>
+      <a class="contact-item" href="https://linkedin.com/in/baju-sersendemid" target="_blank">
+        <div>
+          <div class="contact-item-label">LinkedIn</div>
+          <div class="contact-item-value">Baju Sersendemid</div>
+        </div>
+      </a>
+      <a class="contact-item" href="https://www.instagram.com/bajuyaa/" target="_blank">
+        <div>
+          <div class="contact-item-label">Instagram</div>
+          <div class="contact-item-value">@bajuyaa</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="foot-name">Baljinnyam Sersendemid</div>
+    <div class="foot-label" style="margin-top:4px;">Ulaanbaatar, Mongolia · 2026</div>
+  </div>
+  <div class="foot-label">Made for Ventura ✦</div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .skill-card, .apply-role').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+      ring.style.opacity = '0';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.opacity = '0.6';
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
